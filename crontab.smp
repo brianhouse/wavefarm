@@ -1,0 +1,2 @@
+*/5 * * * * cd /Users/house/Desktop/wavefarm/code/; ./weather_station.py > /dev/null
+@daily cd /Users/house/Desktop/wavefarm/code/; ./tide_tracker.py > /dev/null

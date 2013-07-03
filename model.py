@@ -9,20 +9,19 @@ db = connection.cursor()
 
 def init():
     try:
-        db.execute("CREATE TABLE data (id INTEGER PRIMARY KEY, kind TEXT, t INTEGER, v REAL, r REAL)")
-        db.execute("CREATE INDEX data_kind ON data(kind)")
+        db.execute("CREATE TABLE IF NOT EXISTS data (kind TEXT, t INTEGER, v REAL, r REAL)")
+        db.execute("CREATE INDEX IF NOT EXISTS data_kind ON data(kind)")
+        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS data_kind_t ON data(kind, t)")
     except Exception as e:
-        if hasattr(e, 'message'):
-            e = e.message
-        if "already exists" not in str(e):
-            raise e
+        log.error(log.exc(e))
+        return
     connection.commit()
 init()
 
-def insert_data(kind, v, cumulative=False):
+def insert_data(kind, v, t=None, cumulative=False):
     try:
         r = None
-        db.execute("SELECT v, t, r FROM data WHERE kind=? ORDER BY id DESC LIMIT 1", (kind,))
+        db.execute("SELECT v, t, r FROM data WHERE kind=? ORDER BY t DESC LIMIT 1", (kind,))
         previous = db.fetchone()
         if previous is not None:
             if cumulative and previous['r'] is not None:
@@ -33,10 +32,14 @@ def insert_data(kind, v, cumulative=False):
                 return
         elif cumulative:
             r = v
-        db.execute("INSERT INTO data (kind, t, v, r) VALUES (?, ?, ?, ?)", (kind, int(time.time()), v, r))
-        log.debug("%s -> %s" % (kind, v))
+        if t is None:
+            t = int(time.time())
+        db.execute("INSERT INTO data (kind, t, v, r) VALUES (?, ?, ?, ?)", (kind, t, v, r))
+        entry_id = db.lastrowid            
+        log.debug("%s -> %s (%s)" % (kind, v, entry_id))
     except Exception as e:
         log.error(log.exc(e))
         return
     connection.commit()
+    return entry_id
 
