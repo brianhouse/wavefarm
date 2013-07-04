@@ -15,6 +15,8 @@ height from the horizon in degrees
 sun.alt displays as degrees:minutes:seconds but acts as radians
 max would be 90 which is 1.57
 but civil twilight is -6 degrees, so take that into account
+actually going to use nautical, darker
+too dark. 8.
 
 note that this will only hit 1.0 on the solstice
 
@@ -29,8 +31,8 @@ try:
     observer.date = dt.strftime("%Y/%m/%d %H:%M:%S")
     sun = ephem.Sun(observer)
     log.debug(sun.alt)
-    height = float(sun.alt) + math.radians(6)
-    height /= math.radians(96)
+    height = float(sun.alt) + math.radians(8)
+    height /= math.radians(90 + 8)
     if height < 0.0:
         height = 0.0
     model.insert_data('sun', height)

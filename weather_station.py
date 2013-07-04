@@ -8,12 +8,12 @@ log.info("////////// weather_station //////////")
 try:
     response = net.read("http://api.wunderground.com/api/%s/conditions/q/NY/Acra.json" % config['weather'])
     data = json.loads(response)
-    model.insert_data('heat', float(data['current_observation']['heat_index_f']))
+    model.insert_data('heat', float(data['current_observation']['feelslike_f']))
     model.insert_data('rain', float(data['current_observation']['precip_today_in']), cumulative=True)
-    model.insert_data('wind', float(data['current_observation']['wind_mph']) / float(data['current_observation']['wind_gust_mph']))
+    model.insert_data('wind', (float(data['current_observation']['wind_mph']) + float(data['current_observation']['wind_gust_mph'])) * 0.5)
     model.insert_data('visibility', float(data['current_observation']['visibility_mi']))
 except Exception as e:
-    log.error(e)
+    log.error(log.exc(e))
     exit()
 
 
