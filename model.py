@@ -12,6 +12,9 @@ def init():
         db.execute("CREATE TABLE IF NOT EXISTS data (kind TEXT, t INTEGER, v REAL, r REAL)")
         db.execute("CREATE INDEX IF NOT EXISTS data_kind ON data(kind)")
         db.execute("CREATE UNIQUE INDEX IF NOT EXISTS data_kind_t ON data(kind, t)")
+        #
+        db.execute("CREATE TABLE IF NOT EXISTS venues (venue_id TEXT, people INTEGER)")
+        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS venues_venue_id ON venues(venue_id)")
     except Exception as e:
         log.error(log.exc(e))
         return
@@ -42,4 +45,26 @@ def insert_data(kind, v, t=None, cumulative=False):
         return
     connection.commit()
     return entry_id
+
+
+####
+
+def add_venue(venue):
+    try:
+        db.execute("INSERT INTO venues (venue_id, people) VALUES (?, ?)", (venue['venue_id'], venue['people']))
+    except Exception as e:
+        log.warning(log.exc(e))
+        return
+    connection.commit()
+
+def get_venues():
+    db.execute("SELECT * FROM venues")
+    venues = [dict(venue) for venue in db.fetchall()]    
+    return venues
+
+def update_venues(venues):
+    for venue in venues:
+        db.execute("UPDATE venues SET people=? WHERE venue_id=?", (venue['people'], venue['venue_id']))
+    log.debug("updated %s venues" % len(venues))
+    connection.commit()
 

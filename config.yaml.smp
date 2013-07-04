@@ -1,2 +1,5 @@
 log: True
 weather: APIKEY
+foursquare:
+    key: 4SQKEY
+    secret: 4SQSECRET
