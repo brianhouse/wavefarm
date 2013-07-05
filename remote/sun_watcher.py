@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import json, model, ephem, datetime, math
 from housepy import config, log, net
 

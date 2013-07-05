@@ -1,0 +1,1 @@
+ssh -i scripts/wavefarm.pem ubuntu@54.225.193.43

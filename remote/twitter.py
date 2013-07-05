@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import json, model, datetime, math, tweepy, threading, Queue, time
-from housepy import config, log, net
+from housepy import config, log, net, process
 
 log.info("////////// twitter //////////")
 
+process.secure_pid(os.path.join(os.path.dirname(__file__), "..", "run"))
 
 class TweetListener(tweepy.streaming.StreamListener):
 

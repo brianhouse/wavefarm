@@ -1,2 +1,2 @@
-ephem==3.7.5.1
+pyephem==3.7.5.1
 tweepy==2.0

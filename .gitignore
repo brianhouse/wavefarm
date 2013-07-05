@@ -4,3 +4,5 @@ data.db
 logs
 housepy
 config.yaml
+*.pem
+*.pid
