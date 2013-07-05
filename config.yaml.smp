@@ -11,3 +11,5 @@ twitter:
     access_token_secret: ATS
     consumer_key: CK
     consumer_secret: CKS
+
+mapquest: MAP
