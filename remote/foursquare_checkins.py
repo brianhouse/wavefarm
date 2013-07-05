@@ -35,3 +35,9 @@ model.update_venues(update)
 
 model.insert_data('checkins', checkins)
 model.insert_data('checkouts', checkouts)
+
+"""
+so this doesnt loop quickly enough to get it done in 5mins. our resolution will be less.
+
+"""
+
