@@ -39,7 +39,7 @@ def insert_data(kind, v, t=None, cumulative=False):
             t = int(time.time())
         db.execute("INSERT INTO data (kind, t, v, r) VALUES (?, ?, ?, ?)", (kind, t, v, r))
         entry_id = db.lastrowid            
-        log.debug("%s -> %s (%s)" % (kind, v, entry_id))
+        log.info("%s -> %s (%s)" % (kind, v, entry_id))
     except Exception as e:
         log.error(log.exc(e))
         return

@@ -1,5 +1,13 @@
 log: True
+
 weather: APIKEY
+
 foursquare:
     key: 4SQKEY
     secret: 4SQSECRET
+
+twitter:
+    access_token: AT
+    access_token_secret: ATS
+    consumer_key: CK
+    consumer_secret: CKS
