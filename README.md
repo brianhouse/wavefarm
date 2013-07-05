@@ -1,6 +1,8 @@
 wavefarm
 ========
 
+resolution is 5 mins
+
 
 Server reminders
 ----------------

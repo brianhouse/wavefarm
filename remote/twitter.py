@@ -45,7 +45,7 @@ tweet_thread = TweetThread()
 while True:
     count = 0
     start_t = time.time()
-    while time.time() - start_t <= 1.0:
+    while time.time() - start_t <= 5 * 60:
         try:
             tweet = tweet_thread.queue.get_nowait()
             count += 1
