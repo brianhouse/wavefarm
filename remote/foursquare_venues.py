@@ -38,21 +38,31 @@ anchors = [ "42.3187870,-74.0780210",   # wave farm
 
 
             
-total_venues = []
+total_venues = 0
 
 for anchor in anchors:
-    params = {'intent': "browse", 'll': anchor, 'radius': 8000, 'limit': 50, 'client_id': config['foursquare']['key'], 'client_secret': config['foursquare']['secret'], 'v': "20130704"}
+
+    log.info("checking for %s" % anchor)
+
+    # params = {'intent': "browse", 'll': anchor, 'radius': 8000, 'limit': 50, 'client_id': config['foursquare']['key'], 'client_secret': config['foursquare']['secret'], 'v': "20130704"}
+    # params = net.urlencode(params)
+    # request_string = "https://api.foursquare.com/v2/venues/search?%s" % params
+
+    params = {'ll': anchor, 'radius': 8000, 'limit': 50, 'time': "any", 'day': "any", 'client_id': config['foursquare']['key'], 'client_secret': config['foursquare']['secret'], 'v': "20130704"}
     params = net.urlencode(params)
-    request_string = "https://api.foursquare.com/v2/venues/search?%s" % params
+    request_string = "https://api.foursquare.com/v2/venues/explore?%s" % params
+
     try:
         response = net.read(request_string)
     except Exception as e:
         log.error(log.exc(e))
         continue
-    data = json.loads(response)
+    data = json.loads(response)    
+    # print(json.dumps(data, indent=4))
     try:
-        venues = data['response']['venues']
+        venues = data['response']['groups'][0]['items']
         for venue in venues:
+            venue = venue['venue']
             checkins = venue['stats']['checkinsCount']
             if checkins == 0:
                 continue
@@ -62,14 +72,10 @@ for anchor in anchors:
                 people = 0
             venue_id = venue['id']
             venue = {'venue_id': venue_id, 'people': people}
-            log.debug(venue)
-            total_venues.append(venue)
+            model.add_venue(venue)
+            total_venues += 1
     except Exception as e:
         log.error(log.exc(e))
         log.error(json.dumps(data, indent=4))
 
-for venue in total_venues:
-    model.add_venue(venue)
-log.debug("added %s venues" % len(total_venues))
-
-    
+log.debug("added %s venues" % total_venues)

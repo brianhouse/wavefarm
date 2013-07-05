@@ -50,6 +50,7 @@ def insert_data(kind, v, t=None, cumulative=False):
 ####
 
 def add_venue(venue):
+    log.info("adding venue %s" % venue['venue_id'])
     try:
         db.execute("INSERT INTO venues (venue_id, people) VALUES (?, ?)", (venue['venue_id'], venue['people']))
     except Exception as e:
