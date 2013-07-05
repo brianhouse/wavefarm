@@ -17,7 +17,7 @@ for venue in model.get_venues():
         params = {'client_id': config['foursquare']['key'], 'client_secret': config['foursquare']['secret'], 'v': "20130704"}
         params = net.urlencode(params)
         request_string = "https://api.foursquare.com/v2/venues/%s/herenow?%s" % (venue['venue_id'], params)
-        response = net.read(request_string)
+        response = net.read(request_string, timeout=3)
         data = json.loads(response)
         people = data['response']['hereNow']['count']
         if people != venue['people']:
