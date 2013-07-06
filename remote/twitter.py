@@ -43,14 +43,15 @@ class TweetThread(threading.Thread):
 
 tweet_thread = TweetThread()
 while True:
-    count = 0
     start_t = time.time()
     while time.time() - start_t <= 5 * 60:
+        time.sleep(0.1)
+    count = 0        
+    while True:
         try:
             tweet = tweet_thread.queue.get_nowait()
             count += 1
         except Queue.Empty:
-            pass   
-        time.sleep(0.2)
+            break
     model.insert_data('tweets', count)                
 

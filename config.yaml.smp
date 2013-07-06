@@ -15,3 +15,15 @@ twitter:
 mapquest: MAP
 
 show_video: False
+
+tornado:
+    log_templates: False
+    cookie_secret: 9ep5lefroe_?@stIabro*MLechluqi_S
+    xsrf_cookies: False
+    port: 3333
+
+server:
+    host: 10.0.1.190
+    port: 3333
+
+name: RasPI
