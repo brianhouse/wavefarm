@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, cv, time, os, numpy, random, threading, Queue, json
+import sys, cv, time, os, numpy, random, threading, Queue
 from collections import deque        
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import log, config, util, net
@@ -20,16 +20,17 @@ class Reporter(threading.Thread):
             log.info("Waiting...")
             start_t = time.time()
             while time.time() - start_t <= 60:
-                time.sleep(0.2)
+                time.sleep(0.1)
             log.info("Reporting...")
             events = []
             while True:
                 try:
-                    event = self.queue.get_nowait()
-                    events.append(event)
+                    motion = self.queue.get_nowait()
+                    events.append(motion)
                 except Queue.Empty:
-                    break
-            response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'name': config['name'], 'source': "motion", 'events': json.dumps(events)})
+                    break            
+            motion = max(events)
+            response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': motion, 't': int(time.time())})
             log.info(response)
 
 
@@ -45,7 +46,7 @@ mat_two = cv.CreateMat(frame.height, frame.width, cv.CV_8U)
 mat_result = cv.CreateMat(frame.height, frame.width, cv.CV_8U)
 cv.CvtColor(frame, mat_two, cv.CV_RGB2GRAY)    
 
-event_started = False
+motion_started = False
 
 while True:
 
@@ -61,23 +62,21 @@ while True:
 
     level = float(cv.CountNonZero(mat_result)) / (frame.height * frame.width)
     if level > config['motion_threshold']:
-        if not event_started:
-            log.info("starting event!")
-            event_started = True
+        if not motion_started:
+            log.info("motion started!")
+            motion_started = True
             levels = []
             zeros = config['motion_forgiveness']
             start_t = time.time()
         levels.append(level)
     if level < config['motion_threshold'] or time.time() - start_t >= 30.0:   # force end after 30 seconds
-        if event_started:
+        if motion_started:
             if zeros == 0:
-                log.info("event ended!")              
-                stop_t = time.time() 
+                log.info("motion ended!")              
                 motion = sum(levels) / float(len(levels))
-                event = start_t, stop_t, motion
                 log.info("--> %s" % motion)
-                reporter.queue.put(event)                
-                event_started = False
+                reporter.queue.put(motion)                
+                motion_started = False
                 levels = []     
                 zeros = config['motion_forgiveness']       
             else:

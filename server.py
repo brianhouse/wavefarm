@@ -18,11 +18,12 @@ class Home(tornado_server.Handler):
     def post(self, nop=None):
         log.info("Home.post")
         try:        
-            name = self.get_argument("name")
-            source = self.get_argument("source")
-            events = self.get_argument("events")
-            events = json.loads(events)        
-            log.info("%s: %s (%s)" % (name, events, source))
+            device = self.get_argument("device")
+            kind = self.get_argument("kind")
+            value = self.get_argument("value")
+            t = self.get_argument("t")
+            log.info("%s, %s: %s" % (device, kind, value))
+            model.insert_data(kind, value, t)
             return self.text("OK")
         except Exception as e:
             return self.error(log.exc(e))

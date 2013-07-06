@@ -44,7 +44,7 @@ class TweetThread(threading.Thread):
 tweet_thread = TweetThread()
 while True:
     start_t = time.time()
-    while time.time() - start_t <= 5 * 60:
+    while time.time() - start_t <= 1 * 60:
         time.sleep(0.1)
     count = 0        
     while True:

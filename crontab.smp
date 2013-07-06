@@ -1,6 +1,6 @@
-*/5 * * * * cd /home/ubuntu/wavefarm/; ./remote/weather_station.py > /dev/null
-*/5 * * * * cd /home/ubuntu/wavefarm/; ./remote/sun_watcher.py > /dev/null
+* * * * * cd /home/ubuntu/wavefarm/; ./remote/weather_station.py > /dev/null
+* * * * * cd /home/ubuntu/wavefarm/; ./remote/sun_watcher.py > /dev/null
 @daily cd /home/ubuntu/wavefarm/; ./remote/tide_tracker.py > /dev/null              # gets 5 minute increments for next 4 days
 
-@hourly cd /home/ubuntu/wavefarm/; ./remote/twitter.py > /dev/null                  # loops every 5 minutes, but this keeps it alive
+@hourly cd /home/ubuntu/wavefarm/; ./remote/twitter.py > /dev/null                  # loops every minute, but this keeps it alive
 */5 * * * * cd /home/ubuntu/wavefarm/; ./remote/foursquare_checkins.py > /dev/null  # hopefully finishes in 5mins

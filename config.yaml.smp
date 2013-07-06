@@ -26,4 +26,4 @@ server:
     host: 10.0.1.190
     port: 3333
 
-name: RasPI
+device: RasPI
