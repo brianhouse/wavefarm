@@ -27,6 +27,9 @@ while True:
     cv.MorphologyEx(mat_result, mat_result, None, None, cv.CV_MOP_CLOSE)
     cv.Threshold(mat_result, mat_result, 10, 255, cv.CV_THRESH_BINARY)
 
+    level = float(cv.CountNonZero(mat_result)) / (frame.height * frame.width)
+    print(level)
+
     if config['show_video']:
-        cv.ShowImage("w1", mat_result)
+        cv.ShowImage("motion", mat_result)
 
