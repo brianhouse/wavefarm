@@ -1,11 +1,12 @@
-wavefarm
+Wavefarm
 ========
 
 resolution is 5 mins
 
 
-Install, RasPI
---------------
+
+Technical Bits
+==============
 
 
 Server reminders
@@ -14,6 +15,20 @@ Server reminders
     sudo service nginx start
 
     sudo ntpdate time.nist.gov  # in sudo crontab
+
+
+Install, RasPI
+--------------
+    sudo apt-get install libcv-dev
+    sudo apt-get install python-opencv
+
+
+Audio, RasPI
+------------
+    arecord -l                                  # list devices
+    arecord -d 10 -f cd -t wav foobar.wav       # record
+
+
 
 
 ### Copyright/License

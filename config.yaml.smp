@@ -13,3 +13,5 @@ twitter:
     consumer_secret: CKS
 
 mapquest: MAP
+
+show_video: False
