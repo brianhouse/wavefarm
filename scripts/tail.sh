@@ -1,0 +1,1 @@
+multitail logs/weather_station.log logs/sun_watcher.log logs/foursquare_checkins.log logs/tide_tracker.log logs/twitter.log
