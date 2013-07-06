@@ -5,26 +5,30 @@ resolution is 5 mins
 
 
 
-Technical Bits
-==============
+Server
+======
 
-
-Server reminders
-----------------
     cp wavefarm/ngnix.conf /etc/nginx/
     sudo service nginx start
 
-    sudo ntpdate time.nist.gov  # in sudo crontab
+    sudo ntpdate time.nist.gov  # in sudo crontab, daily
 
 
-Install, RasPI
---------------
+Raspi
+======
+
     sudo apt-get install libcv-dev
     sudo apt-get install python-opencv
 
+    sudo nano /etc/network/interfaces
 
-Audio, RasPI
-------------
+cron:
+
+    */5 * * * * ping -c4 'google.com' > /dev/null; if [ $? != 0 ]; then ifdown --force wlan0; ifup wlan0; fi
+
+
+audio:
+
     arecord -l                                  # list devices
     arecord -d 10 -f cd -t wav foobar.wav       # record
 

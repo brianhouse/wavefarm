@@ -17,11 +17,15 @@ class Home(tornado_server.Handler):
 
     def post(self, nop=None):
         log.info("Home.post")
-        name = self.get_argument("name")
-        source = self.get_argument("source")
-        value = self.get_argument("value")
-        log.info("%s: %s (%s)" % (name, value, source))
-        return self.text("OK")
+        try:        
+            name = self.get_argument("name")
+            source = self.get_argument("source")
+            events = self.get_argument("events")
+            events = json.loads(events)        
+            log.info("%s: %s (%s)" % (name, events, source))
+            return self.text("OK")
+        except Exception as e:
+            return self.error(log.exc(e))
 
 
 def main():
