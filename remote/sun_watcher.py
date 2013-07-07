@@ -37,7 +37,8 @@ try:
     height /= math.radians(90 + 8)
     if height < 0.0:
         height = 0.0
-    model.insert_data('sun', height)
+    print(height)
+    model.insert_reading('server', 'sun', height)
 except Exception as e:
     log.error(e)
     exit()

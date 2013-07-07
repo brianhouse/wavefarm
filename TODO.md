@@ -1,12 +1,18 @@
-average levels of movement is not ideal
+raspis are keeping no memory; if no connection, data is lost
 
-want events
+/////
 
-so filter at a threshold
+scale is 60:1
+one minute becomes one second, etc.
+one second becomes 60hz, which is about musical time. (16ths at 120bpm is 32hz)
 
-movement above a threshold starts the event; when it drops below the event ends.
-average movement within the event is the intensity.
+/////
 
-then send that.
+two types of data: continuous measurements, and discrete events, reflected in the model
 
-have a max length on motion events.
+'readings' just have a value. if the value repeats, we will assume it's constant. intended to be resampled.
+readings are taken every 5 minutes (-> 5 seconds)
+
+'events' have a start, a stop, and an intensity. they also have a quality.
+events are quantized to every second (32nd note)
+

@@ -33,8 +33,8 @@ for venue in model.get_venues():
 # print(json.dumps(update, indent=4))
 model.update_venues(update)
 
-model.insert_data('checkins', checkins)
-model.insert_data('checkouts', checkouts)
+model.insert_reading('server', 'checkins', checkins)
+model.insert_reading('server', 'checkouts', checkouts)
 
 
 

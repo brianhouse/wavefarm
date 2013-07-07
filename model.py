@@ -9,10 +9,12 @@ db = connection.cursor()
 
 def init():
     try:
-        db.execute("CREATE TABLE IF NOT EXISTS data (kind TEXT, t INTEGER, v REAL, r REAL)")
-        db.execute("CREATE INDEX IF NOT EXISTS data_kind ON data(kind)")
-        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS data_kind_t ON data(kind, t)")
+        db.execute("CREATE TABLE IF NOT EXISTS readings (device TEXT, kind TEXT, t INTEGER, v REAL, r REAL)")
+        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS device_kind_t ON readings(device, kind, t)")
         #
+        db.execute("CREATE TABLE IF NOT EXISTS events (device TEXT, kind TEXT, start_t INTEGER, stop_t INTEGER, v REAL, q REAL)")
+        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS device_kind_t ON events(device, kind, t)")
+        ##
         db.execute("CREATE TABLE IF NOT EXISTS venues (venue_id TEXT, people INTEGER)")
         db.execute("CREATE UNIQUE INDEX IF NOT EXISTS venues_venue_id ON venues(venue_id)")
     except Exception as e:
@@ -21,10 +23,13 @@ def init():
     connection.commit()
 init()
 
-def insert_data(kind, v, t=None, cumulative=False):
+def insert_reading(device, kind, v, t=None, cumulative=False):
+    """ Cumulative: input will be monotonic, but we only want the delta in value
+                    eg, getting amount of rain per hour from a continuously updated daily total
+    """
     try:
         r = None
-        db.execute("SELECT v, t, r FROM data WHERE kind=? ORDER BY t DESC LIMIT 1", (kind,))
+        db.execute("SELECT t, v, r FROM readings WHERE device=? AND kind=? ORDER BY t DESC LIMIT 1", (device, kind))
         previous = db.fetchone()
         if previous is not None:
             if cumulative and previous['r'] is not None:
@@ -37,15 +42,25 @@ def insert_data(kind, v, t=None, cumulative=False):
             r = v
         if t is None:
             t = int(time.time())
-        db.execute("INSERT INTO data (kind, t, v, r) VALUES (?, ?, ?, ?)", (kind, t, v, r))
+        db.execute("INSERT INTO readings (device, kind, t, v, r) VALUES (?, ?, ?, ?, ?)", (device, kind, t, v, r))
         entry_id = db.lastrowid            
-        log.info("%s -> %s (%s)" % (kind, v, entry_id))
+        log.info("%s,%s -> %s (%s)" % (device, kind, v, entry_id))
     except Exception as e:
         log.error(log.exc(e))
         return
     connection.commit()
     return entry_id
 
+def insert_event(device, kind, v, start_t, stop_t, q=None):
+    try:
+        db.execute("INSERT INTO events (device, kind, start_t, stop_t, v, q) VALUES (?, ?, ?, ?, ?, ?)", (device, kind, start_t, stop_t, v, q))
+        entry_id = db.lastrowid
+        log.info("%s,%s -> %s %s (%s)" % (device, kind, v, (q if q is not None else ""), entry_id))
+    except Exception as e:
+        log.error(log.exc(e))
+        return
+    connection.commit()
+    return entry_id
 
 ####
 

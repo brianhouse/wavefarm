@@ -1,18 +1,39 @@
 #! /usr/bin/env python
 
-import os, sys, wave, time, json, math
-import numpy as np
-from housepy import log, config, util, science, drawing, jobs
+import os, sys, wave, time, json, math, threading, subprocess, Queue
+from housepy import log, config, util
 from scipy.io import wavfile
+# from housepy import drawing
 
 THRESHOLD = 0.05 # as percentage of maximum gain
 
-def handle_audio(data):
+class Recorder(threading.Thread):
 
-    filename = data['filename']
-    t = data['t']
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.queue = Queue.Queue()
+        self.start() 
 
-    sample_rate, signal = wavfile.read("tmp/" + filename)
+    def run(self):
+        while True:
+            t = int(time.time())
+            try:
+                subprocess.check_call("arecord -d 60 -f cd -t wav audio_tmp/%s.wav" % t, shell=True)        
+            except Exception as e:
+                log.error(log.exc(e))
+                time.sleep(1)
+                continue
+            self.queue.put(t)
+
+
+def process(t):
+
+    log.info("////////// process %s //////////" % t)
+
+    filename = "audio_tmp/%s.wav" % t
+
+    sample_rate, signal = wavfile.read(filename)
     log.info("AUDIO SAMPLES %s" % len(signal))
     log.info("SAMPLE RATE %s" % sample_rate)
     duration = float(len(signal)) / sample_rate
@@ -22,11 +43,11 @@ def handle_audio(data):
     magnitude = abs(signal)
 
     thresholded_magnitude = (magnitude > THRESHOLD) * magnitude
-    # level = science.smooth(thresholded_magnitude, window_len=1000)
+    # level = sp.smooth(thresholded_magnitude, window_len=1000)
     average_magnitude = np.average(thresholded_magnitude)
     log.info("AVERAGE MAGNITUDE %s" % average_magnitude)
 
-    os.remove("tmp/" + filename)
+    os.remove(filename)
 
 
     # # show magnitude processing -- use to determine noise floor
@@ -61,15 +82,16 @@ def handle_audio(data):
     # else:
     #     fsig[1:len(fsig)] *= 2
     # display_fsig = [10 * np.log10(sample) for sample in fsig]
-    # display_fsig = science.normalize(display_fsig)
+    # display_fsig = sp.normalize(display_fsig)
     # ctx = drawing.Context(width=800, height=300, background=(0., 0., 1.), hsv=True, flip=True, relative=True)
     # ctx.line([(float(i) / len(display_fsig), sample) for (i, sample) in enumerate(display_fsig)], thickness=1)
     # ctx.show()
 
-    log.info("//////////")
-    
 
-queue = jobs.Jobs()
-queue.process(handle_audio, tube="audio")
+    
+recorder = Recorder()
+while True:
+    recorder.queue.get()
+
 
 

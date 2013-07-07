@@ -42,10 +42,11 @@ class TweetThread(threading.Thread):
 
 
 tweet_thread = TweetThread()
+# quantizes to the second
 while True:
     start_t = time.time()
-    while time.time() - start_t <= 1 * 60:
-        time.sleep(0.1)
+    while time.time() - start_t <= 1:
+        time.sleep(0.01)
     count = 0        
     while True:
         try:
@@ -53,5 +54,7 @@ while True:
             count += 1
         except Queue.Empty:
             break
-    model.insert_data('tweets', count)                
+    if count > 0: 
+        model.insert_event('server', 'tweets', count, start_t, start_t + 1)
+
 
