@@ -57,7 +57,7 @@ def insert_event(device, kind, v, t=None, d=0.0, q=None):
     try:
         db.execute("INSERT INTO events (device, kind, t, v, d, q) VALUES (?, ?, ?, ?, ?, ?)", (device, kind, t, v, d, q))
         entry_id = db.lastrowid
-        log.info("%s,%s -> %s %s (%s)" % (device, kind, v, (q if q is not None else ""), entry_id))
+        log.info("%s,%s -> %s%s (%s)" % (device, kind, v, ("%s " % q if q is not None else ""), entry_id))
     except Exception as e:
         log.error(log.exc(e))
         return

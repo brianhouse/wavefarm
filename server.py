@@ -21,13 +21,12 @@ class Home(tornado_server.Handler):
             device = self.get_argument("device")
             kind = self.get_argument("kind")
             value = float(self.get_argument("value"))
-            t = self.get_argument("t", None)
-            if t is None:
-                start_t = self.get_argument("start_t")
-                stop_t = self.get_argument("stop_t")
-                quality = self.get_argument("quality")
-                log.info("%s, %s (e): %s-%s" % (device, kind, value, quality))
-                model.insert_event(device, kind, value, t)                
+            t = self.get_argument("t")
+            duration = self.get_argument("duration", None)            
+            if duration is not None:
+                quality = self.get_argument("quality", None)
+                log.info("%s, %s (e): %s%s" % (device, kind, value, (" %s" % quality if quality is not None else "")))
+                model.insert_event(device, kind, value, t, duration, quality)                
             else:
                 log.info("%s, %s (r): %s" % (device, kind, value))
                 model.insert_reading(device, kind, value, t)
