@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os, sys, wave, time, json, math, threading, subprocess, Queue
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import signal_processing as sp
 from housepy import log, config, util
 from scipy.io import wavfile
@@ -20,11 +21,14 @@ class Recorder(threading.Thread):
         while True:
             t = int(time.time())
             try:
-                subprocess.check_call("arecord -d 30 -f cd -t wav audio_tmp/%s.wav" % t, shell=True)    # 30s of cd-quality audio  
+                command = "arecord -d 30 -f cd -t wav audio_tmp/%s.wav" % t
+                log.info("%s" % command)
+                subprocess.check_call(command, shell=True)    # 30s of cd-quality audio  
             except Exception as e:
                 log.error(log.exc(e))
                 time.sleep(1)
                 continue
+            log.info("--> ok")
             self.queue.put(t)
 
 
