@@ -22,6 +22,7 @@ see crontab.smp for a list of sources and types
 Setup
 =====
 
+Requires housepy and signal_processing
 
 Server
 ------

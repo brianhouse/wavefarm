@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os, sys, wave, time, json, math, threading, subprocess, Queue
+import signal_processing as sp
 from housepy import log, config, util
 from scipy.io import wavfile
 # from housepy import drawing
@@ -19,7 +20,7 @@ class Recorder(threading.Thread):
         while True:
             t = int(time.time())
             try:
-                subprocess.check_call("arecord -d 60 -f cd -t wav audio_tmp/%s.wav" % t, shell=True)        
+                subprocess.check_call("arecord -d 30 -f cd -t wav audio_tmp/%s.wav" % t, shell=True)    # 30s of cd-quality audio  
             except Exception as e:
                 log.error(log.exc(e))
                 time.sleep(1)
@@ -43,11 +44,20 @@ def process(t):
     magnitude = abs(signal)
 
     thresholded_magnitude = (magnitude > THRESHOLD) * magnitude
-    # level = sp.smooth(thresholded_magnitude, window_len=1000)
-    average_magnitude = np.average(thresholded_magnitude)
-    log.info("AVERAGE MAGNITUDE %s" % average_magnitude)
+    level = sp.smooth(thresholded_magnitude, window_len=1000)
 
-    os.remove(filename)
+    # peak detect...
+
+    try:
+        value = 5.0
+        duration = 5.0
+        response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "sound", 'value': value, 't': t, 'duration': duration})
+        log.info(response)
+    except Exception as e:
+        log.error(log.exc(e))
+
+
+    # os.remove(filename)
 
 
     # # show magnitude processing -- use to determine noise floor
