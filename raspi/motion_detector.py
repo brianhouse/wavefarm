@@ -66,7 +66,7 @@ while True:
                 log.info("motion ended!")       
                 motion = sum(levels) / float(len(levels))
                 log.info("--> %s" % motion)
-                reporter.queue.put(motion, t, time.time() - t) # quality?
+                reporter.queue.put((motion, start_t, time.time() - start_t)) # quality?
                 motion_started = False
                 levels = []     
                 zeros = config['motion_forgiveness']       

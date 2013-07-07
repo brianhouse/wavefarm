@@ -25,10 +25,10 @@ class Home(tornado_server.Handler):
             duration = self.get_argument("duration", None)            
             if duration is not None:
                 quality = self.get_argument("quality", None)
-                log.info("%s, %s (e): %s%s" % (device, kind, value, (" %s" % quality if quality is not None else "")))
+                log.info("%s,%s (e): %s%s" % (device, kind, value, (" %s" % quality if quality is not None else "")))
                 model.insert_event(device, kind, value, t, duration, quality)                
             else:
-                log.info("%s, %s (r): %s" % (device, kind, value))
+                log.info("%s,%s (r): %s" % (device, kind, value))
                 model.insert_reading(device, kind, value, t)
             return self.text("OK")
         except Exception as e:
