@@ -12,7 +12,7 @@ def init():
         db.execute("CREATE TABLE IF NOT EXISTS readings (device TEXT, kind TEXT, t INTEGER, v REAL, r REAL)")
         db.execute("CREATE UNIQUE INDEX IF NOT EXISTS device_kind_t ON readings(device, kind, t)")
         #
-        db.execute("CREATE TABLE IF NOT EXISTS events (device TEXT, kind TEXT, start_t INTEGER, stop_t INTEGER, v REAL, q REAL)")
+        db.execute("CREATE TABLE IF NOT EXISTS events (device TEXT, kind TEXT, t INTEGER, v REAL, d REAL, q REAL)")
         db.execute("CREATE UNIQUE INDEX IF NOT EXISTS device_kind_t ON events(device, kind, t)")
         ##
         db.execute("CREATE TABLE IF NOT EXISTS venues (venue_id TEXT, people INTEGER)")
@@ -51,9 +51,11 @@ def insert_reading(device, kind, v, t=None, cumulative=False):
     connection.commit()
     return entry_id
 
-def insert_event(device, kind, v, start_t, stop_t, q=None):
+def insert_event(device, kind, v, t=None, d=0.0, q=None):
+    if t is None:
+        t = int(time.time())    
     try:
-        db.execute("INSERT INTO events (device, kind, start_t, stop_t, v, q) VALUES (?, ?, ?, ?, ?, ?)", (device, kind, start_t, stop_t, v, q))
+        db.execute("INSERT INTO events (device, kind, t, v, d, q) VALUES (?, ?, ?, ?, ?, ?)", (device, kind, t, v, d, q))
         entry_id = db.lastrowid
         log.info("%s,%s -> %s %s (%s)" % (device, kind, v, (q if q is not None else ""), entry_id))
     except Exception as e:

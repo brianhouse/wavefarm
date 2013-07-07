@@ -55,6 +55,6 @@ while True:
         except Queue.Empty:
             break
     if count > 0: 
-        model.insert_event('server', 'tweets', count, start_t, start_t + 1)
+        model.insert_event('server', 'tweets', count)
 
 

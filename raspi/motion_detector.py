@@ -17,21 +17,9 @@ class Reporter(threading.Thread):
 
     def run(self):
         while True:
-            log.info("Waiting...")
-            start_t = time.time()
-            while time.time() - start_t <= 60:
-                time.sleep(0.1)
-            log.info("Reporting...")
-            events = []
-            while True:
-                try:
-                    motion = self.queue.get_nowait()
-                    events.append(motion)
-                except Queue.Empty:
-                    break    
-            motion = max(events) if len(events) else 0.0
+            event = self.queue.get()
             try:
-                response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': motion, 't': int(time.time())})
+                response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': event[0], 't': event[1], 'duration': event[2]})
                 log.info(response)
             except Exception as e:
                 log.error(log.exc(e))
@@ -75,10 +63,10 @@ while True:
     if level < config['motion_threshold'] or time.time() - start_t >= 30.0:   # force end after 30 seconds
         if motion_started:
             if zeros == 0:
-                log.info("motion ended!")              
+                log.info("motion ended!")       
                 motion = sum(levels) / float(len(levels))
                 log.info("--> %s" % motion)
-                reporter.queue.put(motion)                
+                reporter.queue.put(motion, t, time.time() - t) # quality?
                 motion_started = False
                 levels = []     
                 zeros = config['motion_forgiveness']       
