@@ -28,6 +28,7 @@ Raspi
     sudo apt-get update
     sudo apt-get install libcv-dev
     sudo apt-get install python-opencv
+    sudo apt-get install mercurial
 
     sudo easy_install pip
     sudo pip install PyYAML

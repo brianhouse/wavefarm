@@ -28,8 +28,8 @@ class Reporter(threading.Thread):
                     motion = self.queue.get_nowait()
                     events.append(motion)
                 except Queue.Empty:
-                    break            
-            motion = max(events)
+                    break    
+            motion = max(events) if len(events) else 0.0
             response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': motion, 't': int(time.time())})
             log.info(response)
 
