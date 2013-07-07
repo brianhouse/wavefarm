@@ -13,14 +13,24 @@ Server
 
     sudo ntpdate time.nist.gov  # in sudo crontab, daily
 
+    sudo pip install tweepy
+    sudo pip install pyephem
+
 
 Raspi
 ======
 
+    ssh 10.0.1.45 -l pi
+    ssh 10.0.1.169 -l pi
+
+    sudo nano /etc/network/interfaces
+
+    sudo apt-get update
     sudo apt-get install libcv-dev
     sudo apt-get install python-opencv
 
-    sudo nano /etc/network/interfaces
+    sudo easy_install pip
+    sudo pip install PyYAML
 
 cron:
 
