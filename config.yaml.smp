@@ -23,7 +23,7 @@ tornado:
     port: 3333
 
 server:
-    host: 10.0.1.190
+    host: 54.225.193.43
     port: 3333
 
 device: RasPI

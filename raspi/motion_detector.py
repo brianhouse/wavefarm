@@ -30,8 +30,11 @@ class Reporter(threading.Thread):
                 except Queue.Empty:
                     break    
             motion = max(events) if len(events) else 0.0
-            response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': motion, 't': int(time.time())})
-            log.info(response)
+            try:
+                response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': motion, 't': int(time.time())})
+                log.info(response)
+            except Exception as e:
+                log.error(log.exc(e))
 
 
 reporter = Reporter()

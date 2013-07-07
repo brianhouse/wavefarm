@@ -20,7 +20,7 @@ class Home(tornado_server.Handler):
         try:        
             device = self.get_argument("device")
             kind = self.get_argument("kind")
-            value = self.get_argument("value")
+            value = float(self.get_argument("value"))
             t = self.get_argument("t")
             log.info("%s, %s: %s" % (device, kind, value))
             model.insert_data(kind, value, t)

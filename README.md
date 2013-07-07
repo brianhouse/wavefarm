@@ -8,9 +8,12 @@ resolution is 5 mins
 Server
 ======
 
-    cp wavefarm/ngnix.conf /etc/nginx/
-    sudo service nginx start
+    sudo cp wavefarm/ngnix.conf /etc/nginx/
+    sudo service nginx restart
 
+    tzselect
+    echo "America/New_York" | sudo tee /etc/timezone
+    sudo dpkg-reconfigure --frontend noninteractive tzdata
     sudo ntpdate time.nist.gov  # in sudo crontab, daily
 
     sudo pip install tweepy
