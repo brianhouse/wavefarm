@@ -15,11 +15,15 @@ class TweetListener(tweepy.streaming.StreamListener):
         self.queue = queue
 
     def on_data(self, data):
-        tweet = json.loads(data)
-        log.debug("@%s: %s" % (tweet['user']['screen_name'], tweet['text']))
-        # log.debug(json.dumps(data, indent=4))
-        self.queue.put(1)
-        return True
+        try:
+            tweet = json.loads(data)
+            log.debug("@%s: %s" % (tweet['user']['screen_name'], tweet['text']))
+            # log.debug(json.dumps(data, indent=4))
+            self.queue.put(1)
+            return True
+        except Exception as e:
+            log.error(log.exc(e))
+            return True
 
     def on_error(self, status):
         log.error(status)
