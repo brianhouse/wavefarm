@@ -51,6 +51,11 @@ def insert_reading(device, kind, v, t=None, cumulative=False):
     connection.commit()
     return entry_id
 
+def fetch_readings(kind, start_t, stop_t):
+    db.execute("SELECT * FROM readings WHERE kind=? AND t>=? AND t<?", (kind, start_t, stop_t))
+    rows = [dict(reading) for reading in db.fetchall()]
+    return rows 
+
 def insert_event(device, kind, v, t=None, d=0.0, q=None):
     if t is None:
         t = int(time.time())    

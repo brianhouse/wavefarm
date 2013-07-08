@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 
 import os, sys, time, json, math, threading, subprocess, Queue, gc
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
