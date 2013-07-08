@@ -69,7 +69,8 @@ def process(t):
     for event in events:
         log.debug(event)
 
-    if config['device'] == "Granu" and 'draw' in config and config['draw']:    
+    if 'draw' in config and config['draw']:   
+        from housepy import drawing    
         log.info("--> drawing")
         ctx = drawing.Context(width=2000, height=500, background=(0., 0., 1.), hsv=True, flip=True, relative=True)
         ctx.line([(float(i) / len(magnitude), sample) for (i, sample) in enumerate(magnitude)], thickness=1, stroke=(0., 0., 0.5))
@@ -94,8 +95,7 @@ def process(t):
         os.remove(filename)
 
 
-if config['device'] == "Granu":
-    from housepy import drawing    
+if len(sys.argv) > 1:
     t = sys.argv[1]
     process(int(t))
 else:    
