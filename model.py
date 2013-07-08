@@ -52,8 +52,18 @@ def insert_reading(device, kind, v, t=None, cumulative=False):
     return entry_id
 
 def fetch_readings(kind, start_t, stop_t):
+    # need to account for unchanged readings starting prior to t
     db.execute("SELECT * FROM readings WHERE kind=? AND t>=? AND t<?", (kind, start_t, stop_t))
     rows = [dict(reading) for reading in db.fetchall()]
+    if not len(rows) or rows[0]['t'] > start_t:
+        db.execute("SELECT * FROM readings WHERE kind=? AND t<? ORDER BY t DESC LIMIT 1", (kind, start_t))
+        r = db.fetchone()
+        if r is None:
+            log.warning("complete data not available for %s" % kind)
+            return []
+        r = dict(r)
+        r['t'] = start_t
+        rows.insert(0, r)
     return rows 
 
 def insert_event(device, kind, v, t=None, d=0.0, q=None):
@@ -68,6 +78,12 @@ def insert_event(device, kind, v, t=None, d=0.0, q=None):
         return
     connection.commit()
     return entry_id
+
+def fetch_events(kind, start_t, stop_t):
+    db.execute("SELECT * FROM events WHERE kind=? AND t>=? AND t<?", (kind, start_t, stop_t))
+    rows = [dict(event) for event in db.fetchall()]
+    return rows 
+
 
 ####
 

@@ -6,3 +6,7 @@ process the data in a thread off the main listener, but use beanstalk to cache t
 /
 
 eventually, hardlinks
+
+/
+
+rain is not generating much except errors, cumulative might not be working correctly
