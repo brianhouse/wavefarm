@@ -17,22 +17,18 @@ class Home(tornado_server.Handler):
 
     def post(self, nop=None):
         log.info("Home.post")
-        try:        
-            device = self.get_argument("device")
-            kind = self.get_argument("kind")
-            value = float(self.get_argument("value"))
-            t = self.get_argument("t")
-            duration = self.get_argument("duration", None)            
-            if duration is not None:
-                quality = self.get_argument("quality", None)
-                log.info("%s,%s (e): %s%s" % (device, kind, value, (" %s" % quality if quality is not None else "")))
-                model.insert_event(device, kind, value, t, duration, quality)                
-            else:
-                log.info("%s,%s (r): %s" % (device, kind, value))
-                model.insert_reading(device, kind, value, t)
-            return self.text("OK")
+        try:
+            data = json.loads(self.request.body)
+            for entry in data:
+                if 'duration' in entry:
+                    log.info("%s,%s (e): %s%s" % (entry['device'], entry['kind'], entry['value'], (" %s" % entry['quality'] if 'quality' in entry else "")))
+                    model.insert_event(entry['device'], entry['kind'], entry['value'], entry['t'], entry['duration'], entry['quality'] if 'quality' in entry else None)                                    
+                else:
+                    log.info("%s,%s (r): %s" % (entry['device'], entry['kind'], entry['value']))
+                    model.insert_reading(entry['device'], entry['kind'], entry['value'], entry['t'])                                        
         except Exception as e:
             return self.error(log.exc(e))
+        return self.text("OK")
 
 
 def main():

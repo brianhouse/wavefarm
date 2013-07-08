@@ -18,8 +18,9 @@ class Reporter(threading.Thread):
     def run(self):
         while True:
             value, t, duration = self.queue.get()
+            data = [{'device': config['device'], 'kind': "motion", 'value': value, 't': t, 'duration': duration}]
             try:
-                response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), {'device': config['device'], 'kind': "motion", 'value': value, 't': t, 'duration': duration})
+                response = net.read("http://%s:%s" % (config['server']['host'], config['server']['port']), json.dumps(data))
                 log.info(response)
             except Exception as e:
                 log.error(log.exc(e))

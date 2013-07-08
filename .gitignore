@@ -7,3 +7,4 @@ signal_processing
 config.yaml
 *.pem
 *.pid
+*.wav

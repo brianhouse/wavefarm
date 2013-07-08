@@ -1,6 +1,9 @@
 Wavefarm
 ========
 
+Strategy
+--------
+
 scale is 60:1
 one minute becomes one second, etc.
 one second becomes 60hz, which is about musical time. (16ths at 120bpm is 32hz)
@@ -17,6 +20,11 @@ events are quantized to every second (32nd note)
 
 see crontab.smp for a list of sources and types
 
+
+Discussion
+----------
+
+What is the nature of remote monitoring? What can we know and not know through data?
 
 
 Setup
@@ -63,8 +71,8 @@ cron:
 
 audio:
 
-    arecord -l                                  # list devices
-    arecord -d 10 -f cd -t wav foobar.wav       # record
+    arecord -l                                                # list devices
+    arecord -D plughw:1,0 -d 10 -f S16_LE -c1 -r44100 -t wav foobar.wav       # record (CD-quality but mono, otherwise "-f cd" shortcut)
 
 
 
