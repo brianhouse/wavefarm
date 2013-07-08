@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import os, sys, time, json, math, threading, subprocess, Queue
+import os, sys, time, json, math, threading, subprocess, Queue, gc
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import signal_processing as sp
 import numpy as np
@@ -51,17 +51,21 @@ def process(t):
 
     log.info("--> scanning")
     TOLERANCE = sample_rate / 10    # within a tenth of a second, same sound (poor man's smoothing?)
-    chunks = []
     indexes = []
+    maxes = []
+    durations = []
     zeros = 0
     on_chunk = False
     for index, sample in enumerate(level):
         if sample > 0.0:
             if not on_chunk:
-                indexes.append(index)
-                chunks.append([])                
+                indexes.append(index)                
+                durations.append(0)
+                maxes.append(0)
                 on_chunk = True              
-            chunks[-1].append(sample)
+            durations[-1] += 1
+            if sample > maxes[-1]:
+                maxes[-1] = sample
             zeros = 0            
         if sample == 0.0:            
             if on_chunk:
@@ -69,8 +73,8 @@ def process(t):
                 if zeros == TOLERANCE:
                     on_chunk = False
     events = []
-    for i, chunk in enumerate(chunks):
-        value, t_, duration = np.max(chunk), t + int(float(indexes[i]) / sample_rate), float(len(chunk)) / sample_rate
+    for i in xrange(len(indexes)):
+        value, t_, duration = maxes[i], t + int(float(indexes[i]) / sample_rate), float(durations[i]) / sample_rate
         events.append((value, t_, duration))
     for event in events:
         log.debug(event)
@@ -115,3 +119,4 @@ else:
         time.sleep(0.01)
 
 
+# http://stackoverflow.com/questions/2473783/is-there-a-way-to-circumvent-python-list-append-becoming-progressively-slower
