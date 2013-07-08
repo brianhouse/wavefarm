@@ -27,3 +27,9 @@ server:
     port: 3333
 
 device: RasPI
+draw: True
+
+motion_threshold: 0.01
+motion_forgiveness: 10
+
+sound_threshold: 0.025

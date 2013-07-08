@@ -7,7 +7,7 @@ import numpy as np
 from housepy import log, config, util, net
 from scipy.io import wavfile
 
-THRESHOLD = 0.025 # as percentage of maximum gain
+THRESHOLD = config['sound_threshold'] if 'sound_threshold' in config else 0.025 # as percentage of maximum gain
 
 class Recorder(threading.Thread):
 
@@ -21,14 +21,14 @@ class Recorder(threading.Thread):
         while True:
             t = int(time.time())
             try:
-                command = "arecord -D plughw:1,0 -d 30 -f S16_LE -c1 -r44100 -t wav audio_tmp/%s.wav" % t
+                command = "arecord -D plughw:1,0 -d 30 -f S16_LE -c1 -r11025 -t wav audio_tmp/%s.wav" % t  # 30s of mono 11k PCM
                 log.info("%s" % command)
-                subprocess.check_call(command, shell=True)    # 30s of cd-quality audio  
+                subprocess.check_call(command, shell=True)    
             except Exception as e:
                 log.error(log.exc(e))
                 time.sleep(1)
                 continue
-            log.info("--> ok")
+            log.info("--> ok, wrote audio_tmp/%s.wav" % t)
             self.queue.put(t)
 
 
