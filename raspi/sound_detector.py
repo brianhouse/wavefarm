@@ -46,22 +46,28 @@ def process(t):
     log.info("--> preprocessing")
     magnitude = abs(signal)
     thresholded_magnitude = (magnitude > THRESHOLD) * magnitude
-    level = sp.smooth(thresholded_magnitude, size=10000)
+    # level = sp.smooth(thresholded_magnitude, size=10000)      # shit -- smooth is too expensive for raspi
+    level = thresholded_magnitude
 
     log.info("--> scanning")
+    TOLERANCE = sample_rate / 10    # within a tenth of a second, same sound (poor man's smoothing?)
     chunks = []
     indexes = []
+    zeros = 0
     on_chunk = False
     for index, sample in enumerate(level):
         if sample > 0.0:
             if not on_chunk:
                 indexes.append(index)
-                chunks.append([])
-                on_chunk = True                
+                chunks.append([])                
+                on_chunk = True              
             chunks[-1].append(sample)
-        if sample == 0.0:
+            zeros = 0            
+        if sample == 0.0:            
             if on_chunk:
-                on_chunk = False
+                zeros += 1
+                if zeros == TOLERANCE:
+                    on_chunk = False
     events = []
     for i, chunk in enumerate(chunks):
         value, t_, duration = np.max(chunk), t + int(float(indexes[i]) / sample_rate), float(len(chunk)) / sample_rate
