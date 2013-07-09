@@ -21,8 +21,8 @@ data.close()
 TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]	# typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5]	# westminster?
 TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5]	# alt, octaves off
-TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, E2, Db5]	# alt
-TUNING = [None, B1, E1, Gb1, Ab3, D2, A2, E2, Db3]	# alt2
+TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, E2, Db4]	# alt
+# TUNING = [None, B1, E0, Gb1, Ab3, D2, A2, E2, Db3]	# alt2
 
 # so need something in the E2 range
 # could use a high B?
