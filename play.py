@@ -20,8 +20,12 @@ data.close()
 
 TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]	# typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5]	# westminster?
-TUNING = [None, B2, E3, Gb3, Ab4, D4, Gb4, Ab4, A5]	# alt
+TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5]	# alt, octaves off
+TUNING = [None, B1-OCT, E1, Gb2, Ab3, D3, Gb4, Ab4, A5]	# alt
 
+# so need something in the E2 range
+# could use a high B?
+# sun will be pure square drone
 
 sun = BasicMidi(1)
 sun.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['sun']))
