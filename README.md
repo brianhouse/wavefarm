@@ -30,7 +30,7 @@ What is the nature of remote monitoring? What can we know and not know through d
 Setup
 =====
 
-Requires housepy and signal_processing
+Requires housepy and signal_processing and braid
 
 Server
 ------
