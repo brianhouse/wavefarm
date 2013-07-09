@@ -21,11 +21,15 @@ data.close()
 TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]	# typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5]	# westminster?
 TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5]	# alt, octaves off
-TUNING = [None, B1-OCT, E1, Gb2, Ab3, D3, Gb4, Ab4, A5]	# alt
+TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, E2, Db5]	# alt
+TUNING = [None, B1, E1, Gb1, Ab3, D2, A2, E2, Db3]	# alt2
 
 # so need something in the E2 range
 # could use a high B?
 # sun will be pure square drone
+# Db also works
+
+# we are in E major, nice going guitarist
 
 sun = BasicMidi(1)
 sun.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['sun']))
@@ -51,13 +55,13 @@ visi.pattern = TUNING[5], TUNING[5]
 # rain.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['rain']))
 # rain.pattern = TUNING[6], TUNING[6]
 
-# rain = BasicMidi(7)
-# rain.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['rain']))
-# rain.pattern = TUNING[7], TUNING[7]
+chin = BasicMidi(7)
+chin.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['checkins']))
+chin.pattern = TUNING[7], TUNING[7]
 
-# rain = BasicMidi(8)
-# rain.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['rain']))
-# rain.pattern = TUNING[8], TUNING[8]
+chout = BasicMidi(8)
+chout.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['checkouts']))
+chout.pattern = TUNING[8], TUNING[8]
 
 
 
