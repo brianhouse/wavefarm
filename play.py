@@ -4,6 +4,7 @@ import random, sys
 from housepy import config, log, crashdb
 from braid import *
 from braid.voice.basic_midi import BasicMidi
+from braid.voice.msp_swerve import MspSwerve
 
 DURATION = 60
 
@@ -29,9 +30,16 @@ TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, B2, Db4]	# alt
 # sun will be pure square drone
 # Db also works
 
-sun = BasicMidi(1)
-sun.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['sun']))
+sun = MspSwerve(1)
+sun.synth = 'cycle'
+sun.attack = 400
+sun.sustain = 300
+sun.release = 4500#400
+sun.reverb = 0.7, 0.3, 1., 0.2, 0.5
+sun.tween('tempo', RANGE[0] * 0.5, RANGE[1] * 0.5, DURATION, get_signal_f(data['sun']))
 sun.pattern = TUNING[1], TUNING[1]
+
+#
 
 tide = BasicMidi(2)
 tide.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['tide']))
