@@ -15,10 +15,15 @@ should really have range checks on all inputs, especially from apis, a la rain
 
 eventually, hardlinks to library files
 
+/
+
+rain is a complicated thing. it's kind of an event, though one that can last for days.
+the cumulative / amount thing, in any case, isnt totally hacking it, can take this out when generalizing.
+add humidity instead.
+
 //
 
-bell sets are working
 
-so for each voice, will have to adjust the envelopes individual to fit the tone
 
-TIDE strike still needs some help
+need event rhythms in there!
+need a call to bells --
