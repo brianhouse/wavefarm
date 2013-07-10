@@ -57,8 +57,8 @@ def process_events(kind, color):
     db[kind] = events
     if config['draw']:
         for event in events:        
-            i, d, v = event
-            ctx.line(float(i) / DURATION, v, float(i + d) / DURATION, v, thickness=10, stroke=color)
+            t, d, v = event
+            ctx.line(float(t) / DURATION, v, float(t + d) / DURATION, v, thickness=10, stroke=color)
 
 # process_readings('heat', (0., 1., 1.))   # red
 process_readings('rain', (.1, 1., 1.))    # orange
