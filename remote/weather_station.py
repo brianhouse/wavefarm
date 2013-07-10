@@ -17,7 +17,7 @@ try:
     model.insert_reading('server', 'rain', rain_v, cumulative=True)
     model.insert_reading('server', 'wind', (float(data['current_observation']['wind_mph']) + float(data['current_observation']['wind_gust_mph'])) * 0.5)
     model.insert_reading('server', 'visibility', float(data['current_observation']['visibility_mi']))
-    model.insert_reading('server', 'relative_humidity', float(data['current_observation']['relative_humidity'][:-1]))
+    model.insert_reading('server', 'humidity', float(data['current_observation']['relative_humidity'][:-1]))
 except Exception as e:
     log.error(log.exc(e))
     exit()
