@@ -26,6 +26,10 @@ Discussion
 
 What is the nature of remote monitoring? What can we know and not know through data?
 
+Rhythamanlysis vs surveillance
+
+Alternative relationship to data
+
 
 Setup
 =====

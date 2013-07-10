@@ -11,7 +11,10 @@ try:
     response = net.read("http://api.wunderground.com/api/%s/conditions/q/NY/Acra.json" % config['weather'])
     data = json.loads(response)
     model.insert_reading('server', 'heat', float(data['current_observation']['feelslike_f']))
-    model.insert_reading('server', 'rain', float(data['current_observation']['precip_today_in']), cumulative=True)
+    rain_v = float(data['current_observation']['precip_today_in'])  # occasional bad values
+    if abs(rain_v) > 50:
+        rain_v = 0.0
+    model.insert_reading('server', 'rain', rain_v, cumulative=True)
     model.insert_reading('server', 'wind', (float(data['current_observation']['wind_mph']) + float(data['current_observation']['wind_gust_mph'])) * 0.5)
     model.insert_reading('server', 'visibility', float(data['current_observation']['visibility_mi']))
 except Exception as e:

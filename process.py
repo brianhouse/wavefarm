@@ -21,10 +21,10 @@ RANGE = {   'heat': (60, 110),
         }
 
 DURATION = 3600
-# DURATION *= 24
+DURATION *= 24
 
 t = int(time.time())
-t = int(time.mktime(util.parse_date('2013-07-08 17:00:00').timetuple()))
+# t = int(time.mktime(util.parse_date('2013-07-08 17:00:00').timetuple()))
 
 filename = "signals/%s_%s.json" % (t, DURATION)
 log.info("Generating %s..." % filename)
@@ -60,19 +60,19 @@ def process_events(kind, color):
             i, d, v = event
             ctx.line(float(i) / DURATION, v, float(i + d) / DURATION, v, thickness=10, stroke=color)
 
-process_readings('heat', (0., 1., 1.))   # red
+# process_readings('heat', (0., 1., 1.))   # red
 process_readings('rain', (.1, 1., 1.))    # orange
-process_readings('wind', (.3, 1., 1.))  # green
-process_readings('visibility', (.6, 1., 1.))    # blue
+# process_readings('wind', (.3, 1., 1.))  # green
+# process_readings('visibility', (.6, 1., 1.))    # blue
 process_readings('sun', (0., 0., 0.))    # black
 process_readings('tide', (0., 0., 0.5))    # gray
 
-process_readings('checkins', (.8, .8, 1.))    # purple
-process_readings('checkouts', (.9, .8, 1.), 1)    # thin purple
+# process_readings('checkins', (.8, .8, 1.))    # purple
+# process_readings('checkouts', (.9, .8, 1.), 1)    # thin purple
 
-process_events('tweets', (0.55, 1., 1.))    # matrix
-process_events('motion', (0.76, 1., 1.))    # 
-process_events('sound', (0.92, 1., 1.))    # crimson
+# process_events('tweets', (0.55, 1., 1.))    # matrix
+# process_events('motion', (0.76, 1., 1.))    # 
+# process_events('sound', (0.92, 1., 1.))    # crimson
 
 db.close()
 

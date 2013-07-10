@@ -12,7 +12,7 @@ if len(sys.argv) < 2:
 	print("[signal_tag]")
 	exit()
 
-RANGE = 100, 130
+RANGE = 30, 80
 
 data = crashdb.CrashDB("signals/%s.json" % sys.argv[1])
 data.close()
