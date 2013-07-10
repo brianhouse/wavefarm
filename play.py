@@ -13,6 +13,7 @@ if len(sys.argv) < 2:
 	exit()
 
 RANGE = 30, 80
+# RANGE = 100, 120
 
 data = crashdb.CrashDB("signals/%s.json" % sys.argv[1])
 data.close()
@@ -23,7 +24,7 @@ data.close()
 TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]	# typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5]	# westminster?
 TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5]	# alt, octaves off
-TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, B2, Db4]	# alt
+TUNING = [None, B1, E1, Gb2, Ab3, D3, None, A2, Db3]	# alt
 
 # so need something in the E2 range
 # could use a high B?
@@ -32,9 +33,9 @@ TUNING = [None, B1, E1, Gb2, Ab3, D3, A2, B2, Db4]	# alt
 
 sun = MspSwerve(1)
 sun.synth = 'cycle'
-sun.attack = 400
+sun.attack = 800
 sun.sustain = 300
-sun.release = 4500#400
+sun.release = 4100#400
 sun.reverb = 0.7, 0.3, 1., 0.2, 0.5
 sun.tween('tempo', RANGE[0] * 0.5, RANGE[1] * 0.5, DURATION, get_signal_f(data['sun']))
 sun.pattern = TUNING[1], TUNING[1]

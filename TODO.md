@@ -20,3 +20,5 @@ eventually, hardlinks to library files
 bell sets are working
 
 so for each voice, will have to adjust the envelopes individual to fit the tone
+
+TIDE strike still needs some help
