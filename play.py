@@ -25,6 +25,9 @@ TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]	# typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5]	# westminster?
 TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5]	# alt, octaves off
 TUNING = [None, B1, E1, Gb2, Ab3, D3, None, A2, Db3]	# alt
+TUNING = [None, B1, E1, E2, Ab3, D3, Gb3, A2, Db3]	# alt
+# 5 1 1 3 7 _ 4 6
+# 2nd sounds bad
 
 # so need something in the E2 range
 # could use a high B?
@@ -58,9 +61,9 @@ visi = BasicMidi(5)
 visi.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['visibility']))
 visi.pattern = TUNING[5], TUNING[5]
 
-# rain = BasicMidi(6)
-# rain.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['rain']))
-# rain.pattern = TUNING[6], TUNING[6]
+rain = BasicMidi(6)
+rain.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['wind']))
+rain.pattern = TUNING[6], TUNING[6]
 
 chin = BasicMidi(7)
 chin.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['checkins']))
