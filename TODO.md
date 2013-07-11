@@ -24,6 +24,6 @@ add humidity instead.
 //
 
 
+no capacity for braid to fade out MainStage. hmm.
 
-need event rhythms in there!
-need a call to bells --
+bring sun back?
