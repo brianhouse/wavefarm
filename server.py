@@ -13,12 +13,12 @@ ps.secure_pid(os.path.join(os.path.dirname(__file__), "run"))
 class Home(tornado_server.Handler):
 
     def get(self, page=None):
-        log.info("Home")
         if page == "data":
             data_file = process.main()
             return self.file(data_file)
         elif len(page):
             return self.not_found()
+        log.info("Home")            
         return self.text("Change Ringing (FM)")
 
     def post(self, nop=None):

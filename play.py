@@ -19,6 +19,7 @@ if signal_tag == 'live':
     try:
         response = urllib.request.urlopen("http://%s:%s/data" % (config['server']['host'], config['server']['port']))
         data = json.loads(response.read().decode('utf-8'))
+        log.info("received %s" % (data.keys(),))
     except Exception as e:
         log.error(log.exc(e))
         exit()
@@ -139,9 +140,10 @@ def changes():
     for voice in ('tide', 'chin', 'chout', 'heat', 'wind', 'visi', 'sounds', 'tweets'):
         def stop_voice(voice):
             def sv():
-                eval(voice).pattern = 0, 0
+                eval(voice).pattern = 0, 0                
                 if voice != 'tide':
                     eval(voice).velocity = 0.0
+                    eval(voice).end()                    
             return sv
         driver.callback(stop_voice(voice), (DURATION - t))
         t += 1.0        

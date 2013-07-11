@@ -58,6 +58,7 @@ def main():
 
     db.close()
 
+    log.debug("%s" % (db.keys(),))
     log.info("--> ok")
 
     if config['draw']:
