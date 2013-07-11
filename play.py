@@ -12,7 +12,7 @@ if len(sys.argv) < 2:
     print("[signal_tag]")
     exit()
 
-RANGE = 60, 120
+RANGE = 20, 180
 
 data = crashdb.CrashDB("signals/%s.json" % sys.argv[1])
 data.close()
@@ -24,23 +24,23 @@ TUNING = [None, A2, B2, Db2, D4, E4, Gb4, Ab4, A5]  # typical?
 TUNING = [None, B2, E3, Gb3, Ab4, E4, Gb4, Ab4, A5] # westminster?
 TUNING = [None, B2, E3, Gb3, Ab4, D3, Gb4, Ab4, A5] # alt, octaves off
 TUNING = [None, B1, E1, Gb2, Ab3, D3, None, A2, Db3]    # alt
-TUNING = [None, B1, E1, E2, Ab3, D3, Gb3, A2, Db3]  # alt  # 5 1 1 3 7 2 4 6
+TUNING = [None, B1, E1, E2, Ab3, D3, None, A2, Db3]  # alt  # 5 1 1 3 7 2 4 6
+TUNING = [None, None, E1, E2, Ab3, D3, None, A2, Db3]  # alt  # 5 1 1 3 7 2 4 6
 
 
-
-sun = MspSwerve(1)
-sun.synth = 'cycle'
-sun.attack = 800
-sun.sustain = 300
-sun.release = 4100
-sun.reverb = 0.7, 0.3, 1., 0.2, 0.5
-sun.tween('tempo', RANGE[0] * 0.5, RANGE[1] * 0.5, DURATION, get_signal_f(data['sun']))
-sun.pattern = TUNING[1], TUNING[1]
+# sun = MspSwerve(1)
+# sun.synth = 'cycle'
+# sun.attack = 800
+# sun.sustain = 300
+# sun.release = 4100
+# sun.reverb = 0.7, 0.3, 1., 0.2, 0.5
+# sun.tween('tempo', RANGE[0] * 0.5, RANGE[1] * 0.5, DURATION, get_signal_f(data['sun']))
+# sun.pattern = TUNING[1], TUNING[1]
 
 #
 
 tide = BasicMidi(2)
-tide.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['tide']))
+tide.tween('tempo', RANGE[0], RANGE[1], DURATION, get_signal_f(data['sun']))    # tide->sun
 tide.pattern = TUNING[2], TUNING[2]
 
 heat = BasicMidi(3)
@@ -82,7 +82,7 @@ chout.pattern = TUNING[8], TUNING[8]
 tweets = BasicMidi(9)
 def play_tweet(v, d):
     def tweet_callback():
-        tweets.play(A5, v)
+        tweets.play(Gb5, v)
     return tweet_callback
 last_t = None
 for tweet in data['tweets']:
@@ -120,7 +120,7 @@ sounds = BasicMidi(10)
 def play_sound(v, d):
     def sound_callback():
         # sounds.play(Gb4, v)
-        sounds.play(Gb5, v)
+        sounds.play(Gb4, v)
     return sound_callback
 last_t = None
 for sound in data['sound']:

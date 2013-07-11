@@ -60,7 +60,7 @@ def fetch_readings(kind, start_t, stop_t):
         r = db.fetchone()
         if r is None:
             log.warning("complete data not available for %s" % kind)
-            return []
+            return rows # []    # possibly force return no data?
         r = dict(r)
         r['t'] = start_t
         rows.insert(0, r)
