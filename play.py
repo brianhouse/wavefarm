@@ -8,7 +8,7 @@ from braid.voice.msp_swerve import MspSwerve
 from collections import OrderedDict
 
 DURATION = 60
-RANGE = 20, 180 # tempo
+RANGE = 10, 180 # tempo
 
 
 if len(sys.argv) < 2:
