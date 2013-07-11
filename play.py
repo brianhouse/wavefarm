@@ -138,14 +138,19 @@ def changes():
 
     t = 0.0
     for voice in ('tide', 'chin', 'chout', 'heat', 'wind', 'visi', 'sounds', 'tweets'):
-        def stop_voice(voice):
+        def soft_stop_voice(voice):
             def sv():
                 eval(voice).pattern = 0, 0                
-                if voice != 'tide':
-                    eval(voice).velocity = 0.0
-                    eval(voice).end()                    
             return sv
-        driver.callback(stop_voice(voice), (DURATION - t))
+        def hard_stop_voice(voice):
+            def sv():
+                if voice == 'tide':
+                    return
+                eval(voice).velocity = 0.0
+                eval(voice).end()                    
+            return sv
+        driver.callback(soft_stop_voice(voice), (DURATION - t - 1)) # so we dont get squeltches
+        driver.callback(hard_stop_voice(voice), (DURATION - t))
         t += 1.0        
 
     PAD = 3.0
