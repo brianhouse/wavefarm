@@ -1,19 +1,25 @@
 #!/usr/bin/env python
 
 import os, sys, json, model
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from housepy import config, log, tornado_server, process
+from housepy import config, log, tornado_server
+import housepy.process as ps
+import process
 
 log.info("////////// server //////////")
 
-process.secure_pid(os.path.join(os.path.dirname(__file__), "run"))
+ps.secure_pid(os.path.join(os.path.dirname(__file__), "run"))
 
 
 class Home(tornado_server.Handler):
 
     def get(self, page=None):
         log.info("Home")
-        return self.text("Hello there!")
+        if page == "data":
+            data_file = process.main()
+            return self.file(data_file)
+        elif len(page):
+            return self.not_found()
+        return self.text("Change Ringing (FM)")
 
     def post(self, nop=None):
         log.info("Home.post")

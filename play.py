@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random, sys
+import random, sys, urllib.request, json
 from housepy import config, log, crashdb
 from braid import *
 from braid.voice.basic_midi import BasicMidi
@@ -14,8 +14,17 @@ RANGE = 10, 180 # tempo
 if len(sys.argv) < 2:
     print("[signal_tag]")
     exit()
-data = crashdb.CrashDB("signals/%s.json" % sys.argv[1])
-data.close()
+signal_tag = sys.argv[1]
+if signal_tag == 'live':
+    try:
+        response = urllib.request.urlopen("http://%s:%s/data" % (config['server']['host'], config['server']['port']))
+        data = json.loads(response.read().decode('utf-8'))
+    except Exception as e:
+        log.error(log.exc(e))
+        exit()
+else:
+    data = crashdb.CrashDB("signals/%s.json" % signal_tag)
+    data.close()
 
 MAP = {#'sun': 'sun',
         'tide': 'sun', 'chin': 'checkins', 'chout': 'checkouts', 'heat': 'heat', 'wind': 'wind', 'visi': 'visibility'}

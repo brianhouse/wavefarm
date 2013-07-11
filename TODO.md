@@ -24,11 +24,6 @@ add humidity instead.
 //
 
 
-no capacity for braid to fade out MainStage. hmm.
-
-bring sun back?
-
-
 process lives on the server.
 play makes the call, downloads the result (which isnt stored), does its thing.
 easy peasy.
