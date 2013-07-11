@@ -25,7 +25,7 @@ DURATION = 3600
 # DURATION *= 24
 
 t = int(time.time())
-t = int(time.mktime(util.parse_date('2013-07-10 19:00:00').timetuple()))
+# t = int(time.mktime(util.parse_date('2013-07-10 19:00:00').timetuple()))
 
 filename = "signals/%s_%s.json" % (t, DURATION)
 log.info("Generating %s..." % filename)
