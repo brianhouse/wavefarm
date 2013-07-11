@@ -17,11 +17,13 @@ if len(sys.argv) < 2:
 data = crashdb.CrashDB("signals/%s.json" % sys.argv[1])
 data.close()
 
-MAP = {'tide': 'sun', 'chin': 'checkins', 'chout': 'checkouts', 'heat': 'heat', 'wind': 'wind', 'visi': 'visibility'}
+MAP = {#'sun': 'sun',
+        'tide': 'sun', 'chin': 'checkins', 'chout': 'checkouts', 'heat': 'heat', 'wind': 'wind', 'visi': 'visibility'}
 
 # a ring of 8 bells
 # we are in E major (dom), nice going, guitarist
-TUNING = {  'tide': E1,     # 1
+TUNING = {  #'sun': B1,       # 5
+            'tide': E1,     # 1
             'heat': E2,     # 1
             'wind': Ab3,    # 3
             'visi': D3,     # 7
@@ -30,6 +32,8 @@ TUNING = {  'tide': E1,     # 1
             'tweets': Gb5,  # 2
             'sounds': Gb4,  # 2
             }
+
+sun = BasicMidi(1)
 
 tide = BasicMidi(2)
 heat = BasicMidi(3)
@@ -132,10 +136,6 @@ def changes():
             return sv
         driver.callback(stop_voice(voice), (DURATION - t))
         t += 1.0        
-
-    # def on_fade():
-    #     tide.tween('velocity', 1.0, 0.0, PAD, power)
-    # driver.callback(on_fade, DURATION)
 
     PAD = 3.0
     def on_finish():
