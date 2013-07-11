@@ -3,7 +3,7 @@
 import model, json, time, math
 import numpy as np
 import signal_processing as sp
-from housepy import config, log, util, drawing, science
+from housepy import config, log, util, science
 from housepy.crashdb import CrashDB
 
 t = 0
@@ -39,6 +39,7 @@ def main():
     db = CrashDB(filename)
 
     if config['draw']:
+        from housepy import drawing
         ctx = drawing.Context(width=2000, height=500, background=(0., 0., 1.), hsv=True, flip=True, relative=True)
 
     process_readings('heat', (0., 1., 1.))   # red
