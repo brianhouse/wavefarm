@@ -149,7 +149,7 @@ def changes():
                 eval(voice).velocity = 0.0
                 eval(voice).end()                    
             return sv
-        driver.callback(soft_stop_voice(voice), (DURATION - t - 1)) # so we dont get squeltches
+        driver.callback(soft_stop_voice(voice), (DURATION - t - 2)) # so we dont get squeltches
         driver.callback(hard_stop_voice(voice), (DURATION - t))
         t += 1.0        
 
