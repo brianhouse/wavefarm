@@ -27,3 +27,8 @@ add humidity instead.
 process lives on the server.
 play makes the call, downloads the result (which isnt stored), does its thing.
 easy peasy.
+
+
+auto generate before the hour. then post to s3. have a download page.
+
+have a cron in the studio. pulls the latest a (copy?) and plays (applescript).

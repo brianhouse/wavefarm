@@ -8,5 +8,6 @@ config.yaml
 *.pem
 *.pid
 *.wav
+*.aif
 signals/*
 braid

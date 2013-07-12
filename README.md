@@ -31,6 +31,16 @@ Rhythamanlysis vs surveillance
 Alternative relationship to data
 
 
+Checklist
+---------
+server is running
+MainStage loaded and set to soundflower
+MaxMSP loaded and set to soundflower
+
+wow upload at wavefarm is so slow
+
+
+
 Setup
 =====
 
