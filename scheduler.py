@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import time, process, subprocess
+import time, process, subprocess, os
 from housepy import config, log, s3, osc
 # import play
 
