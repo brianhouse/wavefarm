@@ -1,6 +1,13 @@
 Wavefarm
 ========
 
+Checklist for Tom
+-----------------
+
+Browser and version
+time set
+
+
 Strategy
 --------
 
@@ -88,7 +95,10 @@ audio:
     arecord -l                                                # list devices
     arecord -D plughw:1,0 -d 10 -f S16_LE -c1 -r44100 -t wav foobar.wav       # record (CD-quality but mono, otherwise "-f cd" shortcut)
 
+S3
+--
 
+There are access control and CORS files in place to make this work, remember.
 
 
 ### Copyright/License

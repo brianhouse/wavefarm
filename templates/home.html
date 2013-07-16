@@ -1,0 +1,86 @@
+{% extends "page.html" %}
+
+{% block head %}
+<script type="text/javascript">
+
+    var buffers = {};
+    var context = null;
+
+    function checkCurrent () {
+        console.log("checkCurrent");
+        var d = new Date();
+        var t = Math.floor(d.getTime() / 1000);
+        var hour = (d.getHours() + 1) % 24;
+        var minutes = d.getMinutes();
+        if (minutes == 59 && hour in buffers) {
+            playSound(hour);
+        } else if (minutes >= 5 && !(hour in buffers)) {    // > 50
+            console.log("--> checking for " + hour);
+            $.ajax({
+                type: 'GET',
+                url: '/list',
+                success: function (data, textStatus, jqXHR) {
+                    file_url = "https://s3.amazonaws.com/{{ aws_bucket }}/" + data;
+                    console.log("--> most recent is " + file_url);
+                    var file_t = parseInt(file_url.substring(0, 10));
+                    if (true || t - file_t < 60 * 60) {     // not true
+                        loadSound(hour, file_url);
+                    } else {
+                        console.log("--> that's not the audio we're looking for");
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });                         
+        } else {
+            console.log("--> not time to do anything");        
+        }
+    }
+
+    function loadSound (hour, url) {
+        console.log("loadSound " + hour);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+        request.onload = function() {
+            context.decodeAudioData(request.response, function(buffer) {
+                buffers[hour] = buffer;
+                console.log("--> loaded " + hour + " (" + url +")");                    
+                $('#status').html("Loaded sound for " + hour + ":00");
+            }, null);
+        }
+        console.log("--> downloading...");
+        request.send();
+    }
+
+    function playSound (hour) {    
+        console.log("play " + hour);
+        buffer = buffers[hour];
+        var source = context.createBufferSource();       // creates a sound source
+        source.buffer = buffer;                          // tell the source which sound to play
+        source.noteOn(0);                                // play the source in x seconds
+        delete buffers[hour];
+        $('#status').html("Waiting. Sound not ready yet for " + ((hour + 1) % 24) + ":00");
+    }    
+    
+    function timestamp () {
+        return (new Date().getTime()) / 1000;
+    }
+
+    $(document).ready(function () {    
+
+        $('#status').html("Just started, waiting one minute...");
+        setInterval(checkCurrent, 1 * 60 * 1000);
+
+    });
+
+</script>
+{% endblock head %}
+
+
+{% block content %}
+
+<span id="status"></span>
+
+{% endblock content %}

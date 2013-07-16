@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys, json, model
-from housepy import config, log, tornado_server
+from housepy import config, log, tornado_server, s3
 import housepy.process as ps
 import process
 
@@ -14,12 +14,23 @@ class Home(tornado_server.Handler):
 
     def get(self, page=None):
         if page == "data":
-            data_file = process.main()
+            try:
+                data_file = process.main()
+            except Exception as e:
+                return self.error(log.exc(e))
             return self.file(data_file)
+        if page == "list":
+            try:
+                keys = s3.list_contents()
+                keys.sort()
+                most_recent = keys[-1]
+            except Exception as e:
+                return self.error(log.exc(e))
+            return self.text(most_recent)
         elif len(page):
             return self.not_found()
         log.info("Home")            
-        return self.text("Change Ringing (FM)")
+        return self.render("home.html", {})
 
     def post(self, nop=None):
         log.info("Home.post")
