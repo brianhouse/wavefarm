@@ -1,2 +1,2 @@
-./server.py &
-tail -f logs/server.log
+./main.py &
+tail -f logs/main.log
