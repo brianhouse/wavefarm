@@ -1,10 +1,10 @@
 # continuous, sample rate 1/5min
-*/5 * * * * cd /home/ubuntu/wavefarm/; ./remote/weather_station.py > /dev/null
-*/5 * * * * cd /home/ubuntu/wavefarm/; ./remote/sun_watcher.py > /dev/null
-@daily cd /home/ubuntu/wavefarm/; ./remote/tide_tracker.py > /dev/null              # gets 5 minute increments for next 4 days
-*/5 * * * * cd /home/ubuntu/wavefarm/; ./remote/foursquare_checkins.py > /dev/null  # continuous in effect; hopefully finishes in 5mins
+*/5 * * * * cd /home/ubuntu/wavefarm/server/; ./remote/weather_station.py > /dev/null
+*/5 * * * * cd /home/ubuntu/wavefarm/server/; ./remote/sun_watcher.py > /dev/null
+@daily cd /home/ubuntu/wavefarm/server/; ./remote/tide_tracker.py > /dev/null              # gets 5 minute increments for next 4 days
+*/5 * * * * cd /home/ubuntu/wavefarm/server/; ./remote/foursquare_checkins.py > /dev/null  # continuous in effect; hopefully finishes in 5mins
 
 # event based (quantized to the second)
-@hourly cd /home/ubuntu/wavefarm/; ./remote/twitter.py > /dev/null
+@hourly cd /home/ubuntu/wavefarm/server/; ./remote/twitter.py > /dev/null
 # motiondetector
 # sounddetector
