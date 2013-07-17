@@ -9,5 +9,5 @@ config.yaml
 *.pid
 *.wav
 *.aif
-signals/*
+server/signals/*
 braid

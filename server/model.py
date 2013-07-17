@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import sqlite3, json, time
+import sqlite3, json, time, sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log
 
 connection = sqlite3.connect("data.db")

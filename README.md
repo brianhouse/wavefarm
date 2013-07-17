@@ -1,11 +1,9 @@
 Wavefarm
 ========
 
-Checklist for Tom
------------------
-
-Browser and version
-time set
+granu: audio generation on personal machine, pushes to s3
+raspi: Wave Farm data collection units
+server: data aggregation, analysis, and web-based playback
 
 
 Strategy
@@ -38,13 +36,17 @@ Rhythamanlysis vs surveillance
 Alternative relationship to data
 
 
-Checklist
----------
+Local Checklist
+---------------
 server is running
 MainStage loaded and set to soundflower
 MaxMSP loaded and set to soundflower
 
-wow upload at wavefarm is so slow
+
+Checklist for Tom
+-----------------
+Browser and version
+time set
 
 
 

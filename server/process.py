@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import model, json, time, math
+import model, json, time, math, sys, os
 import numpy as np
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import signal_processing as sp
 from housepy import config, log, util, science
 from housepy.crashdb import CrashDB

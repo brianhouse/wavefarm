@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys, json, model
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log, tornado_server, s3
 import housepy.process as ps
 import process

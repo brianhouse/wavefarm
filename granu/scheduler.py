@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import time, process, subprocess, os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log, s3, osc
-# import play
 
 log.info("Starting recording...")
 filename = "%s.aif" % int(time.time())

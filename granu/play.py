@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random, sys, urllib.request, json
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log, crashdb
 from braid import *
 from braid.voice.basic_midi import BasicMidi
