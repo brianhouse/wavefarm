@@ -40,7 +40,8 @@ Local Checklist
 ---------------
 server is running
 MainStage loaded and set to soundflower
-MaxMSP loaded and set to soundflower
+MaxMSP loaded and set to soundflower, and signal vector size is correct
+run scheduler
 
 
 Checklist for Tom

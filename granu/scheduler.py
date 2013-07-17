@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import time, process, subprocess, os
+import time, subprocess, os, sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log, s3, osc
 

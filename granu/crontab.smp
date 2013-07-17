@@ -1,0 +1,1 @@
+0 * * * * cd /Users/house/Desktop/wavefarm/code/granu/; ./scheduler.py

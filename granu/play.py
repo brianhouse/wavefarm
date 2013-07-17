@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random, sys, urllib.request, json
+import random, sys, urllib.request, json, os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from housepy import config, log, crashdb
 from braid import *
@@ -99,18 +99,19 @@ def main(signal_tag):
                 tweets.play(TUNING['tweets'])
             return tweet_callback
         last_t = None
-        for tweet in data['tweets']:
-            t, v, d = tweet
-            t /= 60.0
-            # quantize
-            t *= 8.0
-            t = int(t)
-            t /= 8.0
-            if last_t is not None and t == last_t:
-                continue
-            last_t = t      
-            t += random.random() * (1.0 / 30)       
-            driver.callback(play_tweet(v / 3.0, d), t)
+        if 'tweets' in data:
+            for tweet in data['tweets']:
+                t, v, d = tweet
+                t /= 60.0
+                # quantize
+                t *= 8.0
+                t = int(t)
+                t /= 8.0
+                if last_t is not None and t == last_t:
+                    continue
+                last_t = t      
+                t += random.random() * (1.0 / 30)       
+                driver.callback(play_tweet(v / 3.0, d), t)
             
 
         def play_sound(v, d):
@@ -119,21 +120,22 @@ def main(signal_tag):
                 sounds.play(TUNING['sounds'])
             return sound_callback
         last_t = None
-        for sound in data['sound']:
-            t, v, d = sound
-            t /= 60.0
-            # quantize
-            t *= 8.0
-            t = int(t)
-            t /= 8.0
-            if last_t is not None and t == last_t:
-                continue
-            last_t = t      
-            t += random.random() * (1.0 / 30)    
-            v *= 1.0
-            v = min(1.0, v)
-            v *= 0.8
-            driver.callback(play_sound(v, d), t)
+        if 'sound' in data:
+            for sound in data['sound']:
+                t, v, d = sound
+                t /= 60.0
+                # quantize
+                t *= 8.0
+                t = int(t)
+                t /= 8.0
+                if last_t is not None and t == last_t:
+                    continue
+                last_t = t      
+                t += random.random() * (1.0 / 30)    
+                v *= 1.0
+                v = min(1.0, v)
+                v *= 0.8
+                driver.callback(play_sound(v, d), t)
 
         t = 0.0
         for voice in ('tide', 'chin', 'chout', 'heat', 'wind', 'visi', 'sounds', 'tweets'):

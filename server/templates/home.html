@@ -15,9 +15,9 @@
         var hour = d.getHours();
         var next_hour = (d.getHours() + 1) % 24;
         var minutes = d.getMinutes();
-        if (!manual && minutes == 0 && hour in buffers && buffers[hour] != null) {
+        if (!manual && minutes == 0 && hour in buffers && buffers[hour] != null) { // 0
             playSound(hour);
-        } else if (minutes >= 50 && !(next_hour in buffers)) {
+        } else if (minutes >= 50 && !(next_hour in buffers)) {  // 50
             console.log("--> checking s3 for " + next_hour);
             $.ajax({
                 type: 'GET',
@@ -25,7 +25,8 @@
                 success: function (data, textStatus, jqXHR) {
                     file_url = "https://s3.amazonaws.com/{{ aws_bucket }}/" + data;
                     console.log("--> most recent is " + file_url);
-                    var file_t = parseInt(file_url.substring(0, 10));
+                    var parts = file_url.split('/');
+                    var file_t = parseInt(parts[parts.length - 1]);
                     if (t - file_t < 30 * 60) { // file created < 30 mins ago
                         loadSound(next_hour, file_url);
                     } else {
@@ -45,7 +46,6 @@
     function loadSound (hour, url) {
         console.log("loadSound " + hour);
         var request = new XMLHttpRequest();
-        url = "http://localhost:3333/static/countdown.wav";
         request.open('GET', url, true);        
         request.responseType = 'arraybuffer';
         buffers[hour] = null;
@@ -104,7 +104,7 @@
 <h2>Change Ringing (FM)</h2>
 
 <br />
-<span id="status"></span><br />
+<span id="status">Warming up...</span><br />
 <br />
 Auto-play is <span id="autoplay">off</span>. <a id="autoplay_toggle" href="javascript:toggleAutoPlay();">Turn on</a>.
 
