@@ -7,12 +7,13 @@
     var context = null;
 
     function checkCurrent () {
+        console.log(buffers);
         console.log("checkCurrent");
         var d = new Date();
         var t = Math.floor(d.getTime() / 1000);
         var hour = (d.getHours() + 1) % 24;
         var minutes = d.getMinutes();
-        if (minutes == 59 && hour in buffers) {
+        if (minutes == 59 && hour in buffers && buffers[hour] != null) {
             playSound(hour);
         } else if (minutes >= 5 && !(hour in buffers)) {    // > 50
             console.log("--> checking for " + hour);
@@ -43,11 +44,15 @@
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.responseType = 'arraybuffer';
+        buffers[hour] = null;
         request.onload = function() {
+            console.log("--> downloaded. Making buffer...");
             context.decodeAudioData(request.response, function(buffer) {
                 buffers[hour] = buffer;
                 console.log("--> loaded " + hour + " (" + url +")");                    
                 $('#status').html("Loaded sound for " + hour + ":00");
+                console.log(buffers);
+                console.log("--");
             }, null);
         }
         console.log("--> downloading...");
@@ -70,8 +75,9 @@
 
     $(document).ready(function () {    
 
-        $('#status').html("Just started, waiting one minute...");
+        context = new webkitAudioContext();
         setInterval(checkCurrent, 1 * 60 * 1000);
+        checkCurrent();
 
     });
 
@@ -81,6 +87,9 @@
 
 {% block content %}
 
+<h2>Change Ringing (FM)</h2>
+
+<br />
 <span id="status"></span>
 
 {% endblock content %}
