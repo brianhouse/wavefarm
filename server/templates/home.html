@@ -6,6 +6,7 @@
     var buffers = {};
     var context = null;
     var manual = true;
+    var loaded = false;
 
     function checkCurrent () {
         console.log(buffers);
@@ -37,7 +38,7 @@
                     console.log(result);
                 }
             });                         
-        } else {
+        } else if (!loaded) {
             $('#status').html("Waiting. Sound not ready yet for " + next_hour + ":00.");
             console.log("--> not time to do anything");        
         }
@@ -55,6 +56,7 @@
                 buffers[hour] = buffer;
                 console.log("--> loaded " + hour + " (" + url +")");                    
                 $('#status').html("Loaded sound for " + hour + ":00.<br /><a href=\"javascript:playSound(" + hour + ");\">Play now</a>.");
+                loaded = true;
             }, function(e) {
                 console.log("--> error: " + e);
             });
@@ -71,6 +73,7 @@
         source.connect(context.destination);
         source.noteOn(0);
         buffers[hour] = null;
+        loaded = false;
         $('#status').html("Playing " + hour + ":00...");
     }    
     
