@@ -81,6 +81,10 @@ def insert_event(device, kind, v, t=None, d=0.0, q=None):
     return entry_id
 
 def fetch_events(kind, start_t, stop_t):
+    # hack for sound, get 8 days ago
+    if kind == "sound":
+        start_t -= 1 * 8 * 24 * 60 * 60
+        stop_t -= 1 * 8 * 24 * 60 * 60
     db.execute("SELECT * FROM events WHERE kind=? AND t>=? AND t<?", (kind, start_t, stop_t))
     rows = [dict(event) for event in db.fetchall()]
     return rows 
