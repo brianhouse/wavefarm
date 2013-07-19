@@ -92,10 +92,14 @@
         }
     }
 
-    $(document).ready(function () {    
-        context = new webkitAudioContext();
+    function startPoll () {
         setInterval(checkCurrent, 1 * 60 * 1000);
         checkCurrent();
+    }
+
+    $(document).ready(function () {    
+        context = new webkitAudioContext();        
+        setTimeout(startPoll, (61 - (new Date().getSeconds())) * 1000);
     });
 
 </script>
