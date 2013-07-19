@@ -50,6 +50,7 @@
         request.open('GET', url, true);        
         request.responseType = 'arraybuffer';
         buffers[hour] = null;
+        $('#status').html("Loading sound for " + hour + ":00...");
         request.onload = function() {
             console.log("--> downloaded " + hour + ". Making buffer...");
             context.decodeAudioData(request.response, function(buffer) {
