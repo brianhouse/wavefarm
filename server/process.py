@@ -15,7 +15,7 @@ ctx = None
 RANGE = {   'heat': (60, 110),
             'rain': (0, None),
             'wind': (0, 10.0),
-            'visibility': (0, 10.0),
+            'visibility': (0, 14.0),
             'sun': (0.0, 0.8),
             'tide': (0.0, 5.0),
             'checkins': (0.0, 5.0),
