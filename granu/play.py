@@ -14,7 +14,7 @@ RANGE = 10, 180 # tempo
 
 
 MAP = {#'sun': 'sun',
-        'tide': 'sun', 'chin': 'checkins', 'chout': 'checkouts', 'heat': 'heat', 'wind': 'wind', 'visi': 'visibility'}
+        'tide': 'sun', 'chin': 'checkins', 'chout': 'checkouts', 'heat': 'heat', 'wind': 'wind', 'visi': 'humidity'}
 
 # a ring of 8 bells
 # we are in E major (dom), nice going, guitarist

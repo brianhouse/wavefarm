@@ -16,7 +16,7 @@ RANGE = {   'heat': (60, 110),
             'rain': (0, None),
             'wind': (0, 10.0),
             'visibility': (0, 14.0),
-            'sun': (0.0, 1.2),
+            'sun': (0.0, 1.2),  # adjusting this to adjust tempo, really
             'tide': (0.0, 5.0),
             'checkins': (0.0, 5.0),
             'checkouts': (0.0, 5.0),
@@ -28,6 +28,7 @@ RANGE = {   'heat': (60, 110),
 
 DURATION = 3600
 # DURATION *= 24
+# DURATION *= 7
 
 def main():
     global t, db, ctx
@@ -45,7 +46,7 @@ def main():
 
     process_readings('heat', (0., 1., 1.))   # red
     # # process_readings('rain', (.1, 1., 1.))    # orange
-    # # process_readings('humidity', (.1, 1., 1.))    # orange
+    process_readings('humidity', (.1, 1., 1.))    # orange
     process_readings('wind', (.3, 1., 1.))  # green
     process_readings('visibility', (.6, 1., 1.))    # blue
     process_readings('sun', (0., 0., 0.))    # black
