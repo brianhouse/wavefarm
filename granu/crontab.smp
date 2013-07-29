@@ -1,1 +1,1 @@
-45 * * * * cd /Users/house/Desktop/wavefarm/code/granu/; ./scheduler.py
+45 * * * * cd /Users/house/Projects/wavefarm/code/granu/; ./scheduler.py

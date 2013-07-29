@@ -1,19 +1,21 @@
 Wavefarm
 ========
 
-granu: audio generation on personal machine, pushes to s3
-raspi: Wave Farm data collection units
-server: data aggregation, analysis, and web-based playback
+[http://brianhouse.net/works/change_ringing_fm/](http://brianhouse.net/works/change_ringing_fm/)
+
+
+granu: audio generation on personal machine, pushes to s3  
+raspi: Wave Farm data collection units  
+server: data aggregation, analysis, and web-based playback  
 
 
 Strategy
 --------
+- scale is 60:1
+- one minute becomes one second, etc.
+- one second becomes 60hz, which is about musical time. (16ths at 120bpm is 32hz)
 
-scale is 60:1
-one minute becomes one second, etc.
-one second becomes 60hz, which is about musical time. (16ths at 120bpm is 32hz)
-
---
+---
 
 two types of data: continuous measurements, and discrete events, reflected in the model
 
@@ -28,33 +30,30 @@ see crontab.smp for a list of sources and types
 
 Discussion
 ----------
-
-What is the nature of remote monitoring? What can we know and not know through data?
-
-Rhythamanlysis vs surveillance
-
-Alternative relationship to data
+- What is the nature of remote monitoring? What can we know and not know through data?  
+- Rhythamanlysis vs surveillance
+- Alternative relationship to data
 
 
 Local Checklist
 ---------------
-server is running
-MainStage loaded and set to soundflower
-MaxMSP loaded and set to soundflower, and signal vector size is correct
-run scheduler / set cron
+- server is running  
+- MainStage loaded and set to soundflower  
+- MaxMSP loaded and set to soundflower, and signal vector size is correct  
+- run scheduler / set cron  
 
 
 Checklist for Tom
 -----------------
-Browser and version
-time set
+- Browser and version  
+- time set
 
 
 
 Setup
 =====
 
-Requires housepy and signal_processing and braid
+Requires housepy (for Python 2.X) and signal_processing and braid
 
 Server
 ------
