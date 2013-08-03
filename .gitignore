@@ -2,7 +2,6 @@
 .DS_Store
 data.db
 logs
-housepy
 signal_processing
 config.yaml
 *.pem
