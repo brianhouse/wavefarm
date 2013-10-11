@@ -9,5 +9,4 @@ config.yaml
 *.wav
 *.aif
 server/signals/*
-braid
 wavefarm (Autosaved).concert/
