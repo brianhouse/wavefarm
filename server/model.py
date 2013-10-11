@@ -24,6 +24,7 @@ def init():
     connection.commit()
 init()
 
+##!! future -- ignoring an unchanged reading until it changes, and then interpolating backwards, is an issue. need to keep TWO entries for unchanging readings.
 def insert_reading(device, kind, v, t=None, cumulative=False):
     """ Cumulative: input will be monotonic, but we only want the delta in value
                     eg, getting amount of rain per hour from a continuously updated daily total

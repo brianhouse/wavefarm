@@ -31,7 +31,7 @@ see crontab.smp for a list of sources and types
 Discussion
 ----------
 - What is the nature of remote monitoring? What can we know and not know through data?  
-- Rhythamanlysis vs surveillance
+- Rhythmanalysis vs surveillance
 - Alternative relationship to data
 
 
